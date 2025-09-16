@@ -94,6 +94,7 @@ body {
 }
 
 .todos-container {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,6 +102,7 @@ body {
 
 #task-list {
   width: 100%;
+  
 }
 
 #task-list li {
@@ -153,4 +155,48 @@ body {
   flex: 1;
   margin-left: 10px;
   word-wrap: break-word ;
+}
+
+
+.task-buttons{
+  display: flex;
+  gap: 10px;
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+
+.task-buttons button{
+background: rgba(6, 12, 55, 0.3);
+border: none;
+border-radius: 50%;
+width: 30px;
+height: 30px;
+color: white;
+cursor: pointer;
+transition: all 0.2s ease;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+
+
+
+.task-buttons button:hover{
+  transform: scale(1.2);
+
+}
+
+
+
+.task-buttons .edit-btn{
+  background: rgb(201, 148, 43);
+}
+
+
+
+
+.task-buttons .delete-btn{
+  background: red;
 }
