@@ -17,9 +17,20 @@
     <div class="container">
       <div class="todo-app">
         <h1>To-Do App</h1>
+        <div class="stat-container">
+          <div class="details">
+            <h3>keep it Up!</h3>
+            <div id="progress-bar">
+              <div id="progress"></div>
+            </div>
+          </div>
+          <div class="stats-number">
+            <p id="number">0/0</p>
+          </div>
+        </div>
         <form action="" class="input-area">
           <input type="text" placeholder="Add a New Task..." id="task-input" />
-          <button type="submit" id="add-task-btn">
+          <button type="button" id="add-task-btn">
             <i class="fa-solid fa-plus"></i>
           </button>
         </form>

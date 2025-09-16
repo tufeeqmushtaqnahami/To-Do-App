@@ -51,6 +51,48 @@ body {
   font-size: 2rem;
 }
 
+
+
+.stat-container{
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  
+}
+
+
+#progress-bar{
+  width: 100%;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  position: relative;
+  margin-top: 15px;
+}
+
+
+
+#progress{
+  width: 70%;
+  height: 100%;
+  background: rgba(0, 28, 241, 0.3);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.details{
+  width: 150px;
+}
+.details h3{
+  text-align: center;
+  color: white;
+}
+
 .input-area {
   display: flex;
   justify-content: space-between;
@@ -158,6 +200,12 @@ body {
 }
 
 
+
+
+#task-list li.completed span{
+  text-decoration: 2px line-through;
+  color: rgb(43, 255, 0);
+}
 .task-buttons{
   display: flex;
   gap: 10px;
