@@ -21,23 +21,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
- const updateProgress = (checkCompletion = true) =>{
- const totalTask = taskList.children.length;
- const completedTask  = taskList.querySelectorAll('.checkbox:checked').length;
+  const updateProgress = (checkCompletion = true) => {
+    const totalTask = taskList.children.length;
+    const completedTask = taskList.querySelectorAll('.checkbox:checked').length;
 
-  progressBar.style.width = totalTask ?`${(completedTask/totalTask) * 100}%` : '0%';
-  progressNumbers.textContent = `${completedTask} / ${totalTask}`;
+    progressBar.style.width = totalTask ? `${(completedTask / totalTask) * 100}%` : '0%';
+    progressNumbers.textContent = `${completedTask} / ${totalTask}`;
 
-  if(checkCompletion && totalTask > 0  && completedTask === totalTask){
-    launchConfetti();
+    if (checkCompletion && totalTask > 0 && completedTask === totalTask) {
+      launchConfetti();
+    }
   }
- }
 
 
 
-  const loadFromLocalStorage = ()=>{
+  const loadFromLocalStorage = () => {
     const savedTask = JSON.parse(localStorage.getItem('tasks')) || [];
-    savedTask.forEach(({text , completed }) =>addTask(text,completed));
+    savedTask.forEach(({ text, completed }) => addTask(text, completed));
     toggleEmptyState();
     updateProgress();
   }
@@ -48,13 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
- const saveToLocalStorage = ()=>{
-  const tasks = Array.from(taskList.querySelectorAll('li')).map(li =>({
-    text: li.querySelector('span').textContent,
-    completed: li.querySelector('.checkbox').checked
-  }));
-  localStorage.setItem('tasks' ,JSON.stringify(tasks));
- }
+  const saveToLocalStorage = () => {
+    const tasks = Array.from(taskList.querySelectorAll('li')).map(li => ({
+      text: li.querySelector('span').textContent,
+      completed: li.querySelector('.checkbox').checked
+    }));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
 
 
 
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") {
       e.preventDefault();
       addTask();
-      
+
     }
   });
   loadFromLocalStorage();
