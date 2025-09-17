@@ -35,6 +35,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+  const loadFromLocalStorage = ()=>{
+    const savedTask = JSON.parse(localStorage.getItem('tasks')) || [];
+    savedTask.forEach(({text , completed }) =>addTask(text,completed));
+    toggleEmptyState();
+    updateProgress();
+  }
+
+
+
+
+
+
+
+ const saveToLocalStorage = ()=>{
+  const tasks = Array.from(taskList.querySelectorAll('li')).map(li =>({
+    text: li.querySelector('span').textContent,
+    completed: li.querySelector('.checkbox').checked
+  }));
+  localStorage.setItem('tasks' ,JSON.stringify(tasks));
+ }
+
+
 
   const addTask = (text, completed = false) => {
     const taskText = text || taskInput.value.trim();
@@ -69,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       editBtn.style.opacity = isChecked ? "0.5" : "1";
       editBtn.style.pointerEvents = isChecked ? "none" : "auto";
       updateProgress();
+      saveToLocalStorage();
     });
 
     editBtn.addEventListener("click", () => {
@@ -77,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         li.remove();
         toggleEmptyState();
         updateProgress(false);
+        saveToLocalStorage();
       }
     });
 
@@ -84,24 +108,29 @@ document.addEventListener("DOMContentLoaded", () => {
       li.remove();
       toggleEmptyState();
       updateProgress();
+      saveToLocalStorage();
     });
 
     taskList.appendChild(li);
     taskInput.value = "";
     toggleEmptyState();
     updateProgress();
+    saveToLocalStorage();
   };
 
   addTaskBtn.addEventListener("click", () => {
     addTask();
+    saveToLocalStorage();
   });
 
   taskInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       addTask();
+      
     }
   });
+  loadFromLocalStorage();
 });
 
 
