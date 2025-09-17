@@ -1,32 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const taskInput = document.getElementById('task-input');
-  const addTaskBtn = document.getElementById('add-task-btn');
-  const taskList = document.getElementById('task-list');
-  const emptyImage = document.querySelector('.empty-image');
-  const todosContainer = document.querySelector('.todos-container')
-
-
+document.addEventListener("DOMContentLoaded", () => {
+  const taskInput = document.getElementById("task-input");
+  const addTaskBtn = document.getElementById("add-task-btn");
+  const taskList = document.getElementById("task-list");
+  const emptyImage = document.querySelector(".empty-image");
+  const todosContainer = document.querySelector(".todos-container");
+  const progressBar = document.querySelector('#progress');
+  const progressNumbers = document.querySelector('#number');
 
 
 
 
 
   const toggleEmptyState = () => {
-    emptyImage.style.display = taskList.children.length === 0 ? 'block' : 'none';
-    todosContainer.style.width = taskList.children.length > 0 ? '100%' : '50%'
-
+    emptyImage.style.display =
+      taskList.children.length === 0 ? "block" : "none";
+    todosContainer.style.width = taskList.children.length > 0 ? "100%" : "50%";
   };
 
 
-  const addTask = (text, completed = false) => {
 
+
+
+ const updateProgress = (checkCompletion = true) =>{
+ const totalTask = taskList.children.length;
+ const completedTask  = taskList.querySelectorAll('.checkbox:checked').length;
+
+  progressBar.style.width = totalTask ?`${(completedTask/totalTask) * 100}%` : '0%';
+  progressNumbers.textContent = `${completedTask} / ${totalTask}`;
+
+  if(checkCompletion && totalTask > 0  && completedTask === totalTask){
+    launchConfetti();
+  }
+ }
+
+
+
+
+  const addTask = (text, completed = false) => {
     const taskText = text || taskInput.value.trim();
     if (!taskText) {
       return;
     }
-    const li = document.createElement('li');
+    const li = document.createElement("li");
     li.innerHTML = `
-     <input type="checkbox"  class="checkbox"${completed ? 'checked' : ''}/>
+     <input type="checkbox"  class="checkbox"${completed ? "checked" : ""}/>
      <span>${taskText}</span>
      <div 
           class="task-buttons">
@@ -35,64 +52,78 @@ document.addEventListener('DOMContentLoaded', () => {
      </div>
      `;
 
-
-    const checkbox = li.querySelector('.checkbox');
-    const editBtn = li.querySelector('.edit-btn');
+    const checkbox = li.querySelector(".checkbox");
+    const editBtn = li.querySelector(".edit-btn");
 
     if (completed) {
-      li.classList.add('completed');
+      li.classList.add("completed");
       editBtn.disabled = true;
-      editBtn.style.opacity = '0.5'
-      editBtn.style.pointerEvents = 'none'
+      editBtn.style.opacity = "0.5";
+      editBtn.style.pointerEvents = "none";
     }
 
-
-    checkbox.addEventListener('change', () => {
+    checkbox.addEventListener("change", () => {
       const isChecked = checkbox.checked;
-      li.classList.toggle('completed', isChecked);
+      li.classList.toggle("completed", isChecked);
       editBtn.disabled = isChecked;
-      editBtn.style.opacity = isChecked ? '0.5' : '1';
-      editBtn.style.pointerEvents = isChecked ? 'none' : 'auto';
-    })
+      editBtn.style.opacity = isChecked ? "0.5" : "1";
+      editBtn.style.pointerEvents = isChecked ? "none" : "auto";
+      updateProgress();
+    });
 
-
-
-
-    editBtn.addEventListener('click', () => {
+    editBtn.addEventListener("click", () => {
       if (!checkbox.checked) {
-        taskInput.value = li.querySelector('span').textContent;
+        taskInput.value = li.querySelector("span").textContent;
         li.remove();
         toggleEmptyState();
+        updateProgress(false);
       }
+    });
 
-    })
-
-    li.querySelector('.delete-btn').addEventListener('click', () => {
+    li.querySelector(".delete-btn").addEventListener("click", () => {
       li.remove();
-      toggleEmptyState()
-    })
-
-
-
+      toggleEmptyState();
+      updateProgress();
+    });
 
     taskList.appendChild(li);
-    taskInput.value = '';
+    taskInput.value = "";
     toggleEmptyState();
+    updateProgress();
   };
 
-
-  addTaskBtn.addEventListener('click', () => {
+  addTaskBtn.addEventListener("click", () => {
     addTask();
   });
 
-
-  taskInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
+  taskInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
       e.preventDefault();
       addTask();
     }
-  })
-})
+  });
+});
 
 
 
+const launchConfetti = () => {
+  const count = 200,
+    defaults = {
+      origin: { y: 0.7 },
+    };
+
+  function fire(particleRatio, opts) {
+    // This calls the library's real confetti()
+    window.confetti(
+      Object.assign({}, defaults, opts, {
+        particleCount: Math.floor(count * particleRatio),
+      })
+    );
+  }
+
+  fire(0.25, { spread: 26, startVelocity: 55 });
+  fire(0.2, { spread: 60 });
+  fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+  fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+  fire(0.1, { spread: 120, startVelocity: 45 });
+};

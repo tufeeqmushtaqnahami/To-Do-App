@@ -85,6 +85,20 @@ body {
   transition: width 0.3s ease;
 }
 
+#number{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(6, 12, 55, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 1.5rem;
+}
+
+
 .details{
   width: 150px;
 }
